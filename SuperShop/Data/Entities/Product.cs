@@ -3,12 +3,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SuperShop.Data.Entities
 {
-    public class Product: IEntity
+    public class Product : IEntity
     {
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(50, ErrorMessage ="The field {0} can contain {1} characters length.")]
+        [MaxLength(50, ErrorMessage = "The field {0} can contain {1} characters length.")]
         public string Name { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:C2}", ApplyFormatInEditMode = false)]
@@ -31,5 +31,7 @@ namespace SuperShop.Data.Entities
         [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = false)]
         public double Stock { get; set; }
 
+
+        public User User { get; set; }
     }
 }

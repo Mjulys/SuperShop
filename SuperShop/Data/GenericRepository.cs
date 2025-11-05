@@ -29,12 +29,13 @@ namespace SuperShop.Data
 
         public async Task CreateAsync(T entity)
         {
-           await _context.Set<T>().AddAsync(entity);
-           await SaveAllAsync();
+            _context.Set<T>().Add(entity);
+            await SaveAllAsync();
                 
         }
         public async Task UpdateAsync(T entity)
         {
+
             _context.Set<T>().Update(entity);
             await SaveAllAsync();
         }
