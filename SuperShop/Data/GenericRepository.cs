@@ -1,27 +1,30 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Supershop.Data.Entities;
+using SuperShop.Data;
 using SuperShop.Data.Entities;
 using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
-
-namespace SuperShop.Data
+namespace Supershop.Data
 {
+
     public class GenericRepository<T> : IGenericRepository<T> where T : class, IEntity
     {
-        public readonly DataContext _context;
+        private readonly DataContext _context;
 
         public GenericRepository(DataContext context)
         {
             _context = context;
         }
+
         public IQueryable<T> GetAll()
         {
             return _context.Set<T>().AsNoTracking();
+
         }
 
+        // Method to create a new entity of type T
         public async Task<T> GetByIdAsync(int id)
         {
             return await _context.Set<T>().AsNoTracking().FirstOrDefaultAsync(e => e.Id == id);
@@ -29,37 +32,41 @@ namespace SuperShop.Data
 
         public async Task CreateAsync(T entity)
         {
-            _context.Set<T>().Add(entity);
+            await _context.Set<T>().AddAsync(entity);
             await SaveAllAsync();
-                
         }
+
         public async Task UpdateAsync(T entity)
         {
-
             _context.Set<T>().Update(entity);
+
             await SaveAllAsync();
         }
 
-         public async Task DeleteAsync(T entity)
+        /*public async Task DeleteAsync(T entity)
         {
-           _context.Set<T>().Remove(entity);
-           await SaveAllAsync();
-                
-        }
+            _context.Set<T>().Remove(entity);
+            await SaveAllAsync();
+        }*/
 
         public async Task<bool> ExistAsync(int id)
         {
-            return await _context.Set<T>().AsNoTracking().AnyAsync(e => e.Id == id);
+            return await _context.Set<T>().AnyAsync(e => e.Id == id);
         }
 
-        public async Task<bool> SaveAllAsync()
+        public async Task DeleteAsync(T entity)
+        {
+
+            _context.Set<T>().Remove(entity);
+            await SaveAllAsync();
+        }
+
+        private async Task<bool> SaveAllAsync()
         {
             return await _context.SaveChangesAsync() > 0;
         }
 
-        public Task DeleteAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
+
+

@@ -1,9 +1,15 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using SuperShop.Data;
+using Microsoft.Extensions.Logging;
+using Supershop.Data;
 
-namespace SuperShop
+namespace Supershop
 {
     public class Program
     {
@@ -12,6 +18,7 @@ namespace SuperShop
             var host = CreateHostBuilder(args).Build();
             RunSeeding(host);
             host.Run();
+
         }
 
         private static void RunSeeding(IHost host)

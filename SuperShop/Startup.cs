@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -10,11 +6,16 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using SuperShop.Data;
+using Supershop.Data;
+using Supershop.Data.Entities;
+using Supershop.Helpers;
 using SuperShop.Data.Entities;
-using SuperShop.Helpers;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace SuperShop
+namespace Supershop
 {
     public class Startup
     {
@@ -28,29 +29,46 @@ namespace SuperShop
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
             services.AddIdentity<User, IdentityRole>(cfg =>
             {
-                cfg.User.RequireUniqueEmail = true;
-                cfg.Password.RequireDigit = false;
-                cfg.Password.RequiredUniqueChars = 0;
-                cfg.Password.RequireLowercase = false;
-                cfg.Password.RequireUppercase = false;
-                cfg.Password.RequireNonAlphanumeric = false;
-                cfg.Password.RequiredLength = 6;
-                
+                cfg.User.RequireUniqueEmail = true; // Ensure that each user has a unique email address
+                cfg.Password.RequireDigit = false; // Passwords do not require a digit
+                cfg.Password.RequiredLength = 6; // Minimum password length is 6 characters
+                cfg.Password.RequireLowercase = false; // Passwords do not require a lowercase letter
+                cfg.Password.RequiredUniqueChars = 0; // Passwords do not require a unique character
+                cfg.Password.RequireNonAlphanumeric = false; // Passwords do not require a non-alphanumeric character
+                cfg.Password.RequireUppercase = false; // Passwords do not require an uppercase letter
             })
-                .AddEntityFrameworkStores<DataContext>();
+
+                .AddEntityFrameworkStores<DataContext>() // Use the DataContext for storing user data
+                ; // End of Identity configuration
 
 
             services.AddDbContext<DataContext>(cfg =>
             {
-                 cfg.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection"));
+                cfg.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection"));
             });
 
             services.AddTransient<SeedDb>();
-            services.AddScoped<IUserHelper, UserHelper>();
 
+            services.AddScoped<IUserHelper, UserHelper>();
+            services.AddScoped<IImageHelper, ImageHelper>();
+            services.AddScoped<IConverterHelper, ConverterHelper>();
+
+
+            // Register the repository as a service
             services.AddScoped<IProductRepository, ProductRepository>();
+            // Use MockRepository for testing purposes
+            //services.AddScoped<IRepository, MockRepository>(); 
+
+            services.AddScoped<IOrderRepository, OrderRepository>();
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/Account/NotAuthorized";
+                options.AccessDeniedPath = "/Account/NotAuthorized";
+            });
 
             services.AddControllersWithViews();
         }
@@ -64,15 +82,20 @@ namespace SuperShop
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Errors/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            app.UseStatusCodePagesWithReExecute("/error/{0}"); // Handle status code errors by redirecting to the Error controller
+
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
 
+            // Use authentication and authorization middleware
             app.UseAuthentication();
 
             app.UseAuthorization();
