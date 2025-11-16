@@ -2,7 +2,132 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="hero-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="display-4 font-weight-bold text-primary mb-4">
+                    <i class="fa fa-shopping-bag"></i> Bem-vindo ao SuperShop
+                </h1>
+                <p class="lead text-muted mb-4">
+                    A sua loja online com os melhores produtos e os melhores preços. 
+                    Explore nossa coleção e encontre exatamente o que procura.
+                </p>
+                @if (!User.Identity.IsAuthenticated)
+                {
+                    <div class="mt-4">
+                        <a asp-controller="Account" asp-action="Register" class="btn btn-primary btn-lg mr-3">
+                            <i class="fa fa-user-plus"></i> Criar Conta
+                        </a>
+                        <a asp-controller="Account" asp-action="Login" class="btn btn-outline-primary btn-lg">
+                            <i class="fa fa-sign-in-alt"></i> Entrar
+                        </a>
+                    </div>
+                }
+                else
+                {
+                    <div class="mt-4">
+                        <a asp-controller="Products" asp-action="Index" class="btn btn-primary btn-lg mr-3">
+                            <i class="fa fa-shopping-cart"></i> Ver Produtos
+                        </a>
+                        <a asp-controller="Order" asp-action="Index" class="btn btn-outline-primary btn-lg">
+                            <i class="fa fa-list"></i> Minhas Encomendas
+                        </a>
+                    </div>
+                }
+            </div>
+            <div class="col-lg-6 text-center">
+                <div class="hero-image">
+                    <i class="fa fa-store fa-10x text-primary opacity-50"></i>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<div class="features-section py-5 bg-light">
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col-12">
+                <h2 class="display-5 font-weight-bold">Porquê escolher o SuperShop?</h2>
+                <p class="text-muted">Oferecemos a melhor experiência de compra online</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="feature-card card h-100 shadow-sm border-0">
+                    <div class="card-body text-center p-4">
+                        <div class="feature-icon mb-3">
+                            <i class="fa fa-shipping-fast fa-3x text-primary"></i>
+                        </div>
+                        <h4 class="card-title">Entrega Rápida</h4>
+                        <p class="card-text text-muted">
+                            Receba os seus produtos no conforto da sua casa com entrega rápida e segura.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="feature-card card h-100 shadow-sm border-0">
+                    <div class="card-body text-center p-4">
+                        <div class="feature-icon mb-3">
+                            <i class="fa fa-shield-alt fa-3x text-success"></i>
+                        </div>
+                        <h4 class="card-title">Compra Segura</h4>
+                        <p class="card-text text-muted">
+                            Todas as transações são protegidas com os mais altos padrões de segurança.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="feature-card card h-100 shadow-sm border-0">
+                    <div class="card-body text-center p-4">
+                        <div class="feature-icon mb-3">
+                            <i class="fa fa-tags fa-3x text-warning"></i>
+                        </div>
+                        <h4 class="card-title">Melhores Preços</h4>
+                        <p class="card-text text-muted">
+                            Encontre os melhores preços do mercado com ofertas exclusivas todos os dias.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (User.Identity.IsAuthenticated)
+{
+    <div class="quick-actions py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center mb-4">
+                    <h3 class="font-weight-bold">Ações Rápidas</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 mb-3">
+                    <a asp-controller="Products" asp-action="Index" class="btn btn-outline-primary btn-block btn-lg">
+                        <i class="fa fa-box"></i><br>Produtos
+                    </a>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <a asp-controller="Order" asp-action="Create" class="btn btn-outline-success btn-block btn-lg">
+                        <i class="fa fa-shopping-cart"></i><br>Nova Encomenda
+                    </a>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <a asp-controller="Order" asp-action="Index" class="btn btn-outline-info btn-block btn-lg">
+                        <i class="fa fa-list"></i><br>Minhas Encomendas
+                    </a>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <a asp-controller="Account" asp-action="ChangeUser" class="btn btn-outline-secondary btn-block btn-lg">
+                        <i class="fa fa-user"></i><br>Meu Perfil
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+}
