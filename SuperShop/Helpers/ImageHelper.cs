@@ -9,21 +9,38 @@ namespace Supershop.Helpers
     {
         public async Task<string> UploadImageAsync(IFormFile imageFile, string folder)
         {
+            if (imageFile == null || imageFile.Length == 0)
+            {
+                return string.Empty;
+            }
 
+            // Criar a pasta se não existir
+            string folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "image", folder);
+            if (!Directory.Exists(folderPath))
+            {
+                Directory.CreateDirectory(folderPath);
+            }
 
+            // Gerar nome único para o ficheiro
             string guid = Guid.NewGuid().ToString();
-            string file = $"{guid}.jpg";
+            string extension = Path.GetExtension(imageFile.FileName);
+            if (string.IsNullOrEmpty(extension))
+            {
+                extension = ".jpg";
+            }
+            string file = $"{guid}{extension}";
 
-            string path = Path.Combine(Directory.GetCurrentDirectory(), $"wwwroot\\image\\{folder}", file);
+            // Caminho completo do ficheiro
+            string path = Path.Combine(folderPath, file);
 
-
+            // Guardar o ficheiro
             using (FileStream stream = new FileStream(path, FileMode.Create))
             {
                 await imageFile.CopyToAsync(stream);
             }
 
+            // Retornar o caminho relativo
             return $"~/image/{folder}/{file}";
-
         }
     }
 }

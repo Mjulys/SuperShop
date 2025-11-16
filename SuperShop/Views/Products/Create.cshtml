@@ -1,36 +1,179 @@
-﻿<!-- I have to change from  model Supershop.Data.Entities.Product -->
-@model Supershop.Models.ProductViewModel
-<!-- When changing here, I have to also change it in the controller. -->
+﻿@model Supershop.Models.ProductViewModel
 @{
-    ViewData["Title"] = "Create new product";
+    ViewData["Title"] = "Criar Novo Produto";
 }
 
-<h1> New product</h1>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0"><i class="fa fa-plus-circle"></i> Criar Novo Produto</h3>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Create" enctype="multipart/form-data" class="needs-validation" novalidate>
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
 
-<!--<h4>Product</h4>-->
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <!-- I have to say that this form also has a file -->
-        <!-- So I have to change the form attribute -->
-        <!-- <form asp-action="Create"> -->
-        <form asp-action="Create" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label asp-for="Name" class="control-label font-weight-bold">
+                                        <i class="fa fa-tag"></i> Nome do Produto
+                                    </label>
+                                    <input asp-for="Name" class="form-control form-control-lg" placeholder="Digite o nome do produto" required />
+                                    <span asp-validation-for="Name" class="text-danger"></span>
+                                </div>
 
-            <!-- Below I am calling the partial view  -->
-            <partial name="_Products" />
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Create</button>
+                                <div class="form-group">
+                                    <label asp-for="Price" class="control-label font-weight-bold">
+                                        <i class="fa fa-euro-sign"></i> Preço
+                                    </label>
+                                    <div class="input-group input-group-lg">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">€</span>
+                                        </div>
+                                        <input asp-for="Price" class="form-control" type="number" step="0.01" placeholder="0.00" required />
+                                    </div>
+                                    <span asp-validation-for="Price" class="text-danger"></span>
+                                </div>
 
-                <a asp-action="Index" class="btn btn-success"><i class="fa fa-chevron-left"></i>Back to List</a>
+                                <div class="form-group">
+                                    <label asp-for="ImageFile" class="control-label font-weight-bold">
+                                        <i class="fa fa-image"></i> Imagem do Produto
+                                    </label>
+                                    <div class="custom-file">
+                                        <input asp-for="ImageFile" type="file" class="custom-file-input" id="imageFile" accept="image/*" />
+                                        <label class="custom-file-label" for="imageFile">Escolher imagem...</label>
+                                    </div>
+                                    <small class="form-text text-muted">Formatos aceites: JPG, PNG, GIF. Tamanho máximo recomendado: 2MB</small>
+                                    <span asp-validation-for="ImageFile" class="text-danger"></span>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="LastPurchase" class="control-label font-weight-bold">
+                                                <i class="fa fa-calendar"></i> Última Compra
+                                            </label>
+                                            <div class="input-group date" data-provide="datepicker">
+                                                <input type="text" asp-for="LastPurchase" class="form-control" />
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
+                                                </div>
+                                            </div>
+                                            <span asp-validation-for="LastPurchase" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="LastSale" class="control-label font-weight-bold">
+                                                <i class="fa fa-calendar"></i> Última Venda
+                                            </label>
+                                            <div class="input-group date" data-provide="datepicker">
+                                                <input type="text" asp-for="LastSale" class="form-control" />
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
+                                                </div>
+                                            </div>
+                                            <span asp-validation-for="LastSale" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="Stock" class="control-label font-weight-bold">
+                                                <i class="fa fa-boxes"></i> Stock
+                                            </label>
+                                            <input asp-for="Stock" class="form-control" type="number" step="0.01" placeholder="0" required />
+                                            <span asp-validation-for="Stock" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label font-weight-bold d-block">
+                                                <i class="fa fa-check-circle"></i> Estado
+                                            </label>
+                                            <div class="form-check form-check-inline mt-2">
+                                                <input class="form-check-input" type="checkbox" asp-for="IsAvailable" id="isAvailable" />
+                                                <label class="form-check-label" for="isAvailable">
+                                                    Produto Disponível
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group mt-4">
+                                    <button type="submit" class="btn btn-primary btn-lg">
+                                        <i class="fa fa-save"></i> Criar Produto
+                                    </button>
+                                    <a asp-action="Index" class="btn btn-secondary btn-lg">
+                                        <i class="fa fa-arrow-left"></i> Voltar à Lista
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="card border-primary">
+                                    <div class="card-header bg-light">
+                                        <h5 class="mb-0"><i class="fa fa-eye"></i> Pré-visualização da Imagem</h5>
+                                    </div>
+                                    <div class="card-body text-center">
+                                        <img id="imagePreview" src="~/image/placeholder.png" alt="Preview" 
+                                             class="img-fluid rounded shadow" 
+                                             style="max-height: 400px; width: 100%; object-fit: contain; display: none;" />
+                                        <div id="noImagePreview" class="text-muted p-5">
+                                            <i class="fa fa-image fa-5x mb-3"></i>
+                                            <p>Nenhuma imagem selecionada</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
-        </form>
+        </div>
     </div>
 </div>
-
 
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+    <script type="text/javascript">
+        $(document).ready(function() {
+            // Datepicker
+            $('.date').datepicker({
+                orientation: "bottom",
+                autoclose: true,
+                format: 'dd/mm/yyyy',
+                language: 'pt-PT'
+            });
+
+            // Image preview
+            $('#imageFile').on('change', function(e) {
+                var file = e.target.files[0];
+                if (file) {
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                        $('#imagePreview').attr('src', e.target.result).show();
+                        $('#noImagePreview').hide();
+                    }
+                    reader.readAsDataURL(file);
+                } else {
+                    $('#imagePreview').hide();
+                    $('#noImagePreview').show();
+                }
+            });
+
+            // Update file input label
+            $('.custom-file-input').on('change', function() {
+                var fileName = $(this).val().split('\\').pop();
+                $(this).next('.custom-file-label').html(fileName || 'Escolher imagem...');
+            });
+        });
+    </script>
 }

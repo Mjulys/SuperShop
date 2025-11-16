@@ -67,11 +67,13 @@
 @section Scripts {
 
     <script type="text/javascript">
-        $(document).ready(function)(){
+        $(document).ready(function(){
             $('.date').datepicker({
-            orientation: "bottom",
-            autoclose: true
-            }
+                orientation: "bottom",
+                autoclose: true,
+                format: 'dd/mm/yyyy',
+                language: 'pt-PT'
+            });
         });
     </script>
 }

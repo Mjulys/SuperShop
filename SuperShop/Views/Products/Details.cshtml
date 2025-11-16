@@ -1,47 +1,123 @@
 ﻿@model Supershop.Data.Entities.Product
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalhes do Produto";
 }
 
-<h1>Product Details</h1>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow-lg border-0">
+                <div class="card-body">
+                    <div class="row">
+                        <!-- Coluna com a imagem -->
+                        <div class="col-md-5 text-center mb-4 mb-md-0">
+                            <div class="card border-primary">
+                                <div class="card-body p-4">
+                                    @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                                    {
+                                        <img src="@Url.Content(Model.ImageUrl)" alt="@Model.Name"
+                                             class="img-fluid rounded shadow"
+                                             style="max-height: 500px; width: 100%; object-fit: contain;" />
+                                    }
+                                    else
+                                    {
+                                        <div class="text-muted p-5">
+                                            <i class="fa fa-image fa-5x mb-3"></i>
+                                            <p>Sem imagem disponível</p>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
 
-<div class="row">
-    <!-- Coluna com os dados -->
-    <div class="col-md-8">
-        <dl class="row">
-            <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Name)</dt>
-            <dd class="col-sm-9">@Html.DisplayFor(model => model.Name)</dd>
+                        <!-- Coluna com os dados -->
+                        <div class="col-md-7">
+                            <h2 class="display-5 font-weight-bold text-primary mb-4">
+                                <i class="fa fa-box"></i> @Model.Name
+                            </h2>
 
-            <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Price)</dt>
-            <dd class="col-sm-9">@Html.DisplayFor(model => model.Price)</dd>
+                            <div class="card bg-light mb-3">
+                                <div class="card-body">
+                                    <h3 class="text-success mb-0">
+                                        <i class="fa fa-euro-sign"></i> @Model.Price.ToString("F2")
+                                    </h3>
+                                </div>
+                            </div>
 
-            <dt class="col-sm-3">@Html.DisplayNameFor(model => model.LastPurchase)</dt>
-            <dd class="col-sm-9">@Html.DisplayFor(model => model.LastPurchase)</dd>
+                            <dl class="row">
+                                <dt class="col-sm-4">
+                                    <i class="fa fa-calendar text-primary"></i> Última Compra
+                                </dt>
+                                <dd class="col-sm-8">
+                                    @if (Model.LastPurchase.HasValue)
+                                    {
+                                        @Model.LastPurchase.Value.ToString("dd/MM/yyyy")
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">N/A</span>
+                                    }
+                                </dd>
 
-            <dt class="col-sm-3">@Html.DisplayNameFor(model => model.LastSale)</dt>
-            <dd class="col-sm-9">@Html.DisplayFor(model => model.LastSale)</dd>
+                                <dt class="col-sm-4">
+                                    <i class="fa fa-calendar text-primary"></i> Última Venda
+                                </dt>
+                                <dd class="col-sm-8">
+                                    @if (Model.LastSale.HasValue)
+                                    {
+                                        @Model.LastSale.Value.ToString("dd/MM/yyyy")
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">N/A</span>
+                                    }
+                                </dd>
 
-            <dt class="col-sm-3">@Html.DisplayNameFor(model => model.IsAvailable)</dt>
-            <dd class="col-sm-9">@Html.DisplayFor(model => model.IsAvailable)</dd>
+                                <dt class="col-sm-4">
+                                    <i class="fa fa-check-circle text-primary"></i> Estado
+                                </dt>
+                                <dd class="col-sm-8">
+                                    @if (Model.IsAvailable)
+                                    {
+                                        <span class="badge badge-success badge-pill">
+                                            <i class="fa fa-check"></i> Disponível
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge badge-danger badge-pill">
+                                            <i class="fa fa-times"></i> Indisponível
+                                        </span>
+                                    }
+                                </dd>
 
-            <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Stock)</dt>
-            <dd class="col-sm-9">@Html.DisplayFor(model => model.Stock)</dd>
-        </dl>
+                                <dt class="col-sm-4">
+                                    <i class="fa fa-boxes text-primary"></i> Stock
+                                </dt>
+                                <dd class="col-sm-8">
+                                    <span class="badge badge-info badge-pill" style="font-size: 1rem;">
+                                        @Model.Stock unidades
+                                    </span>
+                                </dd>
+                            </dl>
+
+                            <div class="mt-4">
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning btn-lg mr-2">
+                                        <i class="fa fa-edit"></i> Editar
+                                    </a>
+                                }
+                                <a asp-action="Index" class="btn btn-secondary btn-lg">
+                                    <i class="fa fa-arrow-left"></i> Voltar à Lista
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-
-    <!-- Coluna com a imagem -->
-    <div class="col-md-4 text-center">
-        @if (!string.IsNullOrEmpty(Model.ImageUrl))
-        {
-            <img src="@Url.Content(Model.ImageUrl)" alt="image"
-                 style="width:300px; height:450px; max-width:100%; height:auto;" />
-        }
-    </div>
-</div>
-
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
-    <a asp-action="Index" class="btn btn-success">Back to List</a>
 </div>
 
