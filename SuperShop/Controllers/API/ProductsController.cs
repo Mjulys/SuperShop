@@ -8,90 +8,61 @@ using Supershop.Helpers;
 
 namespace Supershop.Controllers.API
 {
-    public class ProductsController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class ProductsController : ControllerBase
     {
         private readonly IProductRepository _productRepository;
         private readonly IUserHelper _userHelper;
+
         public ProductsController(IProductRepository productRepository, IUserHelper userHelper)
         {
             _productRepository = productRepository;
             _userHelper = userHelper;
         }
 
-        // GET: Products
-        public IActionResult Index()
+        // GET: api/Products
+        [HttpGet]
+        public IActionResult GetProducts()
         {
-            return View(_productRepository.GetAll().OrderBy(p => p.Name));
+            return Ok(_productRepository.GetAll().OrderBy(p => p.Name));
         }
 
-        // GET: Products/Details/5
-        public async Task<IActionResult> Details(int? id)
+        // GET: api/Products/5
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetProduct(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var product = await _productRepository.GetByIdAsync(id.Value);
+            var product = await _productRepository.GetByIdAsync(id);
 
             if (product == null)
             {
                 return NotFound();
             }
 
-            return View(product);
+            return Ok(product);
         }
 
-        // GET: Products/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Products/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: api/Products
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Product product)
+        public async Task<IActionResult> CreateProduct(Product product)
         {
             if (ModelState.IsValid)
             {
                 //Todo: Modificar para o user que tiver logado
                 product.User = await _userHelper.GetUserByEmailAsync("monica.costa.27793@formandos.cinel.pt");
                 await _productRepository.CreateAsync(product);
-                return RedirectToAction(nameof(Index));
+                return CreatedAtAction(nameof(GetProduct), new { id = product.Id }, product);
             }
-            return View(product);
+            return BadRequest(ModelState);
         }
 
-        // GET: Products/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var product = await _productRepository.GetByIdAsync(id.Value);
-            if (product == null)
-            {
-                return NotFound();
-            }
-            return View(product);
-        }
-
-        // POST: Products/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Product product)
+        // PUT: api/Products/5
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateProduct(int id, Product product)
         {
             if (id != product.Id)
             {
-
-                return NotFound();
+                return BadRequest();
             }
 
             if (ModelState.IsValid)
@@ -101,7 +72,6 @@ namespace Supershop.Controllers.API
                     //Todo: Modificar para o user que tiver logado
                     product.User = await _userHelper.GetUserByEmailAsync("monica.costa.27793@formandos.cinel.pt");
                     await _productRepository.UpdateAsync(product);
-
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -114,40 +84,24 @@ namespace Supershop.Controllers.API
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return NoContent();
             }
-            return View(product);
+            return BadRequest(ModelState);
         }
 
-        // GET: Products/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        // DELETE: api/Products/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteProduct(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var product = await _productRepository.GetByIdAsync(id.Value);
+            var product = await _productRepository.GetByIdAsync(id);
             if (product == null)
             {
                 return NotFound();
             }
 
-            return View(product);
-        }
-
-        // POST: Products/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var product = await _productRepository.GetByIdAsync(id);
             await _productRepository.DeleteAsync(product);
-
-            return RedirectToAction(nameof(Index));
+            return NoContent();
         }
-
-
     }
 }
 
