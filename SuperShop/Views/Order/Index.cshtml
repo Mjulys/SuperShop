@@ -7,7 +7,7 @@
 <h1>Orders</h1>
 
 <p>
-    <a asp-action="Create" class="btn btn-primary">Create New</a>
+    <a asp-action="Create" class="btn btn-primary"><i class="fa fa-plus"></i> Create New</a>
 </p>
 <table class="table">
     <thead>
@@ -62,8 +62,8 @@
                     @Html.DisplayFor(modelItem => item.Value)
                 </td>
                 <td>
-                    <a asp-action="Deliver" asp-route-id="@item.Id" class="btn btn-info" id="btnDeliver">Deliver</a>
-                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger" id="btnDelete">Delete</a>
+                    <a asp-action="Deliver" asp-route-id="@item.Id" class="btn btn-info" id="btnDeliver"><i class="fa fa-truck"></i> Deliver</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger" id="btnDelete"><i class="fa fa-trash"></i> Delete</a>
                 </td>
             </tr>
         }

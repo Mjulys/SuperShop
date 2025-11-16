@@ -50,19 +50,19 @@
                         @if (this.User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Order" asp-action="Index">Orders</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Order" asp-action="Index"><i class="fa fa-shopping-cart"></i> Orders</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="ChangeUser">@this.User.Identity.Name</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="ChangeUser"><i class="fa fa-user"></i> @this.User.Identity.Name</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout"><i class="fa fa-sign-out-alt"></i> Logout</a>
                             </li>
                         }
                         else
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login"><i class="fa fa-sign-in-alt"></i> Login</a>
                             </li>
                         }
                     </ul>
