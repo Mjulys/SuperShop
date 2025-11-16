@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace SuperShop.Migrations
+namespace Supershop.Migrations
 {
     public partial class InitDb : Migration
     {

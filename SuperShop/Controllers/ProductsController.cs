@@ -59,14 +59,14 @@ namespace Supershop.Controllers
             if (id == null)
             {
                 //return NotFound();
-                return new NotFoundViewResult("ProductNotFound"); // Custom 404 view
+                return RedirectToAction(nameof(ProductNotFound)); // Custom 404 view
             }
 
             var product = await _productRepository.GetByIdAsync(id.Value);
             if (product == null)
             {
                 //return NotFound();
-                return new NotFoundViewResult("ProductNotFound"); // Custom 404 view
+                return RedirectToAction(nameof(ProductNotFound)); // Custom 404 view
             }
 
             return View(product);
@@ -140,14 +140,14 @@ namespace Supershop.Controllers
             if (id == null)
             {
                 //return NotFound();
-                return new NotFoundViewResult("ProductNotFound"); // Custom 404 view
+                return RedirectToAction(nameof(ProductNotFound)); // Custom 404 view
             }
 
             var product = await _productRepository.GetByIdAsync(id.Value);
             if (product == null)
             {
                 //return NotFound();
-                return new NotFoundViewResult("ProductNotFound"); // Custom 404 view
+                return RedirectToAction(nameof(ProductNotFound)); // Custom 404 view
             }
 
 
@@ -228,14 +228,14 @@ namespace Supershop.Controllers
             if (id == null)
             {
                 //return NotFound();
-                return new NotFoundViewResult("ProductNotFound"); // Custom 404 view
+                return RedirectToAction(nameof(ProductNotFound)); // Custom 404 view
             }
 
             var product = await _productRepository.GetByIdAsync(id.Value);
             if (product == null)
             {
                 //return NotFound();
-                return new NotFoundViewResult("ProductNotFound"); // Custom 404 view
+                return RedirectToAction(nameof(ProductNotFound)); // Custom 404 view
             }
 
             return View(product);
