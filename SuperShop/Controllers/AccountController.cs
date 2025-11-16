@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Supershop.Data.Entities;
 using Supershop.Helpers;
 using Supershop.Models;
-using SuperShop.Data.Entities;
 using System;
 using System.Linq;
 using System.Threading.Tasks;

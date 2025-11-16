@@ -1,5 +1,5 @@
-﻿using SuperShop.Data.Entities;
-using SuperShop.Models;
+﻿using Supershop.Data.Entities;
+using Supershop.Models;
 
 namespace Supershop.Helpers
 {

@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Supershop.Data.Entities;
-using SuperShop.Data;
-using SuperShop.Data.Entities;
 using System;
 using System.Linq;
 using System.Threading.Tasks;

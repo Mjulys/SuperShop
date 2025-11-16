@@ -1,6 +1,5 @@
 ﻿using Supershop.Data.Entities;
 using Supershop.Models;
-using SuperShop.Models;
 using System.IO;
 
 namespace Supershop.Helpers

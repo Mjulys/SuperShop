@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Supershop.Data.Entities;
-using SuperShop.Data.Entities;
 using System.Linq;
 
 namespace Supershop.Data

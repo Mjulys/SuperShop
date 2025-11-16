@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Supershop.Data;
 using Supershop.Models;
-using SuperShop.Data;
 using System;
 using System.Threading.Tasks;
 

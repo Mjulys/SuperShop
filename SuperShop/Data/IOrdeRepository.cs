@@ -1,6 +1,5 @@
 ﻿using Supershop.Data.Entities;
 using Supershop.Models;
-using SuperShop.Data;
 using System.Linq;
 using System.Threading.Tasks;
 

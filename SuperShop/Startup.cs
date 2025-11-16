@@ -9,7 +9,6 @@ using Microsoft.Extensions.Hosting;
 using Supershop.Data;
 using Supershop.Data.Entities;
 using Supershop.Helpers;
-using SuperShop.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

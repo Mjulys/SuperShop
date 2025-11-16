@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 
-namespace SuperShop.Data.Entities
+namespace Supershop.Data.Entities
 {
     public interface IEntity
     {

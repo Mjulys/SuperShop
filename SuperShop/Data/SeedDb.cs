@@ -2,9 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Supershop.Data.Entities;
 using Supershop.Helpers;
-using SuperShop.Data;
-using SuperShop.Data.Entities;
-using SuperShop.Helpers;
 using System;
 using System.Linq;
 using System.Threading.Tasks;

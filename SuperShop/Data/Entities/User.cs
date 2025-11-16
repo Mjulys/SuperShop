@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace SuperShop.Data.Entities
+namespace Supershop.Data.Entities
 {
     public class User: IdentityUser
     {

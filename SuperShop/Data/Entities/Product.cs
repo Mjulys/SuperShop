@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace SuperShop.Data.Entities
+namespace Supershop.Data.Entities
 {
     public class Product : IEntity
     {

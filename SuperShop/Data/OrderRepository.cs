@@ -2,8 +2,6 @@
 using Supershop.Data.Entities;
 using Supershop.Helpers;
 using Supershop.Models;
-using SuperShop.Data;
-using SuperShop.Helpers;
 using System.Linq;
 using System.Threading.Tasks;
 

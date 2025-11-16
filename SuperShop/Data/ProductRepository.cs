@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Supershop.Data.Entities;
-using SuperShop.Data;
 using System.Collections.Generic;
 using System.Linq;
 

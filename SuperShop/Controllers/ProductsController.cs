@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Supershop.Data;
 using Supershop.Data.Entities;
 using Supershop.Helpers;
-using SuperShop.Models;
+using Supershop.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
