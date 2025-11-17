@@ -45,9 +45,23 @@ namespace Supershop.Controllers
 
                     return this.RedirectToAction("Index", "Home");
                 }
+                else
+                {
+                    if (result.IsLockedOut)
+                    {
+                        this.ModelState.AddModelError(string.Empty, "User account locked out.");
+                    }
+                    else if (result.IsNotAllowed)
+                    {
+                        this.ModelState.AddModelError(string.Empty, "User account not allowed to login.");
+                    }
+                    else
+                    {
+                        this.ModelState.AddModelError(string.Empty, "Invalid login attempt. Please check your email and password.");
+                    }
+                }
             }
 
-            this.ModelState.AddModelError(string.Empty, "Failed to login!");
             return View(model);
         }
 
@@ -87,6 +101,21 @@ namespace Supershop.Controllers
                     {
                         ModelState.AddModelError(string.Empty, "The user couldn't be created.");
                         return View(model);
+                    }
+
+                    // Ensure roles exist before adding
+                    await _userHelper.CheckRoleAsync("Admin");
+                    await _userHelper.CheckRoleAsync("Customer");
+
+                    // If this is the admin email, add Admin role
+                    if (model.Username == "admin@supershop.com")
+                    {
+                        await _userHelper.AddUserToRoleAsync(user, "Admin");
+                    }
+                    else
+                    {
+                        // Add Customer role for other users
+                        await _userHelper.AddUserToRoleAsync(user, "Customer");
                     }
 
                     var loginViewModel = new LoginViewModel

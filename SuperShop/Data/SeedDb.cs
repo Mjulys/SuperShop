@@ -37,34 +37,37 @@ namespace Supershop.Data
             //var user = await _userManager.FindByEmailAsync("felipe.g.sales1985@gmail.com"); // Check if a user with an empty email exists
 
 
-            var user = await _userHelper.GetUserByEmailAsync("felipe.g.sales1985@gmail.com"); // Check if a user with an empty email exists
+            // Ensure admin user exists with correct email
+            var user = await _userHelper.GetUserByEmailAsync("admin@supershop.com");
             if (user == null)
             {
+                // Create new admin user
                 user = new User
                 {
-                    FirstName = "Felipe",
-                    LastName = "Sales",
-                    Email = "felipe.g.sales1985@gmail.com",
-                    UserName = "felipe.g.sales1985@gmail.com",
-                    PhoneNumber = "234567891", // Example phone number
+                    FirstName = "Admin",
+                    LastName = "Supershop",
+                    Email = "admin@supershop.com",
+                    UserName = "admin@supershop.com",
+                    PhoneNumber = "234567891",
                 };
 
-                // Now use the userManager class to create the user
-                //var result = await _userManager.CreateAsync(user, "123456"); // Password for the user
-
-                var result = await _userHelper.AddUserAsync(user, "123456"); // Password for the user
+                var result = await _userHelper.AddUserAsync(user, "123456");
                 if (result != IdentityResult.Success)
                 {
-                    throw new InvalidOperationException("Could not create user in seeding database"); // If the user creation fails, throw an exception
+                    var errors = string.Join(", ", result.Errors.Select(e => e.Description));
+                    throw new InvalidOperationException($"Could not create user in seeding database: {errors}");
                 }
 
                 await _userHelper.AddUserToRoleAsync(user, "Admin");
             }
-
-            var isInRole = await _userHelper.IsUserInRoleAsync(user, "Admin");
-            if (!isInRole)
+            else
             {
-                await _userHelper.AddUserToRoleAsync(user, "Admin");
+                // User exists, ensure they have Admin role
+                var isInRole = await _userHelper.IsUserInRoleAsync(user, "Admin");
+                if (!isInRole)
+                {
+                    await _userHelper.AddUserToRoleAsync(user, "Admin");
+                }
             }
 
             // Check if there are any products in the database
